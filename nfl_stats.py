@@ -18,7 +18,7 @@ def standardize_position(pos):
     cb_set = {"CB", "NC", "NCB", "DC", "DCB", "DB"}
     ret_set = {"RET", "KR", "PR"}
     ol_set = {"OT", "OG", "G", "C"}
-    dl_set = {"DE", "DT", "NT"}
+    dl_set = {"DE", "DT", "NT", "LDE", "RDT","LDT"}
     s_set = {"FS", "SS"}
     
     if pos in lb_set:
