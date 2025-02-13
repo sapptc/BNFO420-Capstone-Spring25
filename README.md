@@ -4,6 +4,10 @@
 
 This Python script processes an NFL statistics Excel file (`.xls`) with a specific format. It performs data validation and standardization, calculates selective averages, and outputs the results to a CSV file.
 
+- **Naming the File:**
+    For this to work well and properly, you'll get a Microsoft Excel export from <https://www.pro-football-reference.com/> for the player you desire to get stat averages on. Before inputting this file through the program you **MUST** open the file and 'Save As...' a 'Excel 97 - 2003' file type .xsl. 
+    The default way the .xsl comes from the website is formatted in an embedded html format that makes it unreadable by the program, so just save it as instructed above first.
+
 - **File Input:**  
   Prompts the user to enter the full file path of a `.xls` file. The script automatically strips any extra quotes (e.g., when using "Copy as Path").
 
@@ -11,7 +15,7 @@ This Python script processes an NFL statistics Excel file (`.xls`) with a specif
   Reads the Excel file assuming the column headers are on the second row (i.e., row index 1).
 
 - **Data Validation:**  
-  Verifies that the file contains required columns (`Season`, `G`, and `Pos`), ensures that data is present for seasons 2019 to 2024, and confirms that for each season at least one record has more than 6 games played.
+  Verifies that the file contains required columns (`Season`, `G`, and `Pos`), ensures that data is present for seasons 2019 to 2024, and confirms that for each season at least one record has at least 6 games played.
 
 - **Position Standardization:**  
   Standardizes the position values using predefined mappings. For example:
@@ -44,6 +48,9 @@ This Python script processes an NFL statistics Excel file (`.xls`) with a specif
 
 - **Output:**  
   The CSV file is saved in a subfolder named after the standardized position (e.g., `WR`) within the same directory as the input file. The CSV file's name mirrors the input file's name (with a `.csv` extension).
+
+## Using in VS Code and within the Repository
+Cloning this in your workspace will provide all the position folder you should need as well as any player stats that have already been uploaded. 
 
 ### Prerequisites
 
