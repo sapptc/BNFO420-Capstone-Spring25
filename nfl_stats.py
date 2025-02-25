@@ -5,23 +5,28 @@ import glob
 from openpyxl import load_workbook
 from openpyxl.styles import PatternFill
 
+# Global list to store skipped player summaries (player, reason)
+skipped_summary = []
+
 def standardize_position(pos):
     """
     Standardize the position string.
-    - All linebacker positions (LB, OLB, ILB, MLB, WLB, WILL, SLB, SAM) become "LB".
-    - All cornerback positions (CB, NC, NCB, DC, DCB, DB) become "CB".
+    - All linebacker positions (LB, OLB, ILB, MLB, WLB, WILL, SLB, SAM, LILB, LLB, ROLB, LOLB, RLB) become "LB".
+    - All cornerback positions (CB, NC, NCB, DC, DCB, DB, RCB, LCB) become "CB".
     - Returner positions (RET, KR, PR) become "RET".
-    - Offensive line positions (OT, OG, G, C, ROLB, LOLB, OLB) become "OL".
+    - Offensive line positions (T, OT, OG, G, C, LG, RG, LT, RT) become "OL".
     - Defensive line positions (DE, DT, NT, LDT, RDT, LDE, RDE) become "DL".
     - Safety positions (FS, SS) become "S".
+    - Fullback (FB) becomes "FB"
+    - Wide receiver (WR) becomes "WR"
     - Otherwise, return the original uppercased position.
     """
     pos = str(pos).strip().upper()
-    lb_set = {"LB", "OLB", "ILB", "MLB", "WLB", "WILL", "SLB", "SAM", "LILB", "LLB", "ROLB", "LOLB", "RLB"}
+    lb_set = {"LB", "OLB", "ILB", "MLB", "WLB", "WILL", "SLB", "SAM", "LILB", "LLB", "ROLB", "LOLB", "RLB", "MILB", "RILB"}
     cb_set = {"CB", "NC", "NCB", "DC", "DCB", "DB", "RCB", "LCB"}
     ret_set = {"RET", "KR", "PR"}
     ol_set = {"T", "OT", "OG", "G", "C", "LG", "RG", "LT", "RT"}
-    dl_set = {"DE", "DT", "NT", "LDT", "RDT", "LDE", "RDE"}
+    dl_set = {"DE", "DT", "NT", "LDT", "RDT", "LDE", "RDE", "NT"}
     s_set = {"FS", "SS"}
     fb_set = {"FB"}
     wr_set = {"WR"}
@@ -57,12 +62,18 @@ def process_file(file_path):
       - Computes selective stat averages and writes an individual CSV file.
       - Updates the aggregate Excel file for the player's standardized position.
     """
+    global skipped_summary
+
     try:
         if not file_path.lower().endswith(".xls"):
-            print(f"Skipping {file_path}: wrong format error.")
+            msg = "Wrong format error."
+            print(f"Skipping {file_path}: {msg}")
+            skipped_summary.append((os.path.basename(file_path), msg))
             return
         if not os.path.exists(file_path):
-            print(f"Skipping {file_path}: file not found.")
+            msg = "File not found."
+            print(f"Skipping {file_path}: {msg}")
+            skipped_summary.append((os.path.basename(file_path), msg))
             return
 
         # Extract player's name from the file name (replace underscores with spaces)
@@ -73,10 +84,18 @@ def process_file(file_path):
         # Read the .xls file with header on row 2.
         df = pd.read_excel(file_path, engine='xlrd', header=1)
 
+        # Convert 'Season' column to numeric; drop rows that cannot be converted
+        df['Season'] = pd.to_numeric(df['Season'], errors='coerce')
+        df = df.dropna(subset=['Season'])
+        df['Season'] = df['Season'].astype(int)
+
+
         # Verify required columns exist.
         for col in ['Season', 'G', 'Pos']:
             if col not in df.columns:
-                print(f"Skipping {file_path}: Required column '{col}' not found.")
+                msg = f"Required column '{col}' not found."
+                print(f"Skipping {file_path}: {msg}")
+                skipped_summary.append((player_name, msg))
                 return
 
         # Define the base required seasons (for group2 we always want 2022-2024)
@@ -90,7 +109,9 @@ def process_file(file_path):
         valid_years = set(group1_base + base_required).union({year for year in all_years if year < 2019})
         relevant_df = df[df['Season'].isin(valid_years)]
         if relevant_df.empty:
-            print(f"Skipping {file_path}: Not enough Seasonal Data.")
+            msg = "Not enough Seasonal Data."
+            print(f"Skipping {file_path}: {msg}")
+            skipped_summary.append((player_name, msg))
             return
 
         # Combine duplicate rows for the same season:
@@ -106,7 +127,9 @@ def process_file(file_path):
         
         # Check that group2 data exists.
         if not all(year in available_years for year in base_required):
-            print(f"Skipping {file_path}: Not enough group2 Seasonal Data (2022-2024 missing).")
+            msg = "Not enough group2 Seasonal Data (2022-2024 missing)."
+            print(f"Skipping {file_path}: {msg}")
+            skipped_summary.append((player_name, msg))
             return
         
         # For group1, check if 2019 is present.
@@ -120,14 +143,18 @@ def process_file(file_path):
                 group1_years = [sub_year, 2020, 2021]
                 print(f"Substituting season 2019 with {sub_year} for group1.")
             else:
-                print(f"Skipping {file_path}: Not enough group1 Seasonal Data (and no suitable substitute for 2019 available).")
+                msg = "Not enough group1 Seasonal Data (and no suitable substitute for 2019 available)."
+                print(f"Skipping {file_path}: {msg}")
+                skipped_summary.append((player_name, msg))
                 return
 
         # For each season in group1 and group2, ensure at least one record has G > 6.
         for year in group1_years + base_required:
             season_data = relevant_df[relevant_df['Season'] == year]
             if season_data.empty or season_data['G'].max() < 6:
-                print(f"Skipping {file_path}: Not enough games played in season {year}.")
+                msg = f"Not enough games played in season {year}."
+                print(f"Skipping {file_path}: {msg}")
+                skipped_summary.append((player_name, msg))
                 return
 
         # Define the mapping of positions to the columns (stats) to average.
@@ -164,10 +191,14 @@ def process_file(file_path):
                     final_pos = standardize_position(pos_2024)
                     print(f"Multiple positions with identical stat sets found. Categorizing player as position from 2024: {final_pos}")
                 else:
-                    print("No record for 2024 found to decide position, need further clarification. Skipping file.")
+                    msg = "No record for 2024 found to decide position, need further clarification."
+                    print(f"Skipping {file_path}: {msg}")
+                    skipped_summary.append((player_name, msg))
                     return
             else:
-                print(f"Skipping {file_path}: Position changes, need further clarification.")
+                msg = "Position changes, need further clarification."
+                print(f"Skipping {file_path}: {msg}")
+                skipped_summary.append((player_name, msg))
                 return
         else:
             final_pos = unique_positions[0]
@@ -179,8 +210,8 @@ def process_file(file_path):
 
         group1 = relevant_df[relevant_df['Season'].isin(group1_years)]
         group2 = relevant_df[relevant_df['Season'].isin(group2_years)]
-        avg_group1 = group1[ [col for col in pos_columns[final_pos] if col in df.columns] ].mean()
-        avg_group2 = group2[ [col for col in pos_columns[final_pos] if col in df.columns] ].mean()
+        avg_group1 = group1[[col for col in pos_columns[final_pos] if col in df.columns]].mean()
+        avg_group2 = group2[[col for col in pos_columns[final_pos] if col in df.columns]].mean()
         diff = avg_group2 - avg_group1
 
         # Create result DataFrame with 3 rows.
@@ -211,48 +242,41 @@ def process_file(file_path):
         else:
             aggregate_df = pd.DataFrame()
 
-        # Check for duplicate player name.
-        skip_aggregate = False
+        # Check for duplicate player name and skip if duplicate exists.
         if not aggregate_df.empty and "Player" in aggregate_df.columns and player_name in aggregate_df["Player"].unique():
-            while True:
-                answer = input(f"Player '{player_name}' may already be added. If this is a new player with the same name, press Y. Otherwise, press N: ").strip().upper()
-                if answer == "Y":
-                    break
-                elif answer == "N":
-                    skip_aggregate = True
-                    break
-                else:
-                    print("Invalid answer, please press Y or N.")
+            msg = "Duplicate player name in aggregate; skipping file."
+            print(f"Skipping aggregate update for {player_name}: {msg}")
+            skipped_summary.append((player_name, msg))
+            return
 
-        if skip_aggregate:
-            print("Aggregate update aborted for this player.")
-        else:
-            aggregate_df = pd.concat([aggregate_df, result_df], ignore_index=True)
-            aggregate_df.to_excel(aggregate_filename, index=False)
-            print(f"Aggregate Excel file updated: {aggregate_filename}")
+        aggregate_df = pd.concat([aggregate_df, result_df], ignore_index=True)
+        aggregate_df.to_excel(aggregate_filename, index=False)
+        print(f"Aggregate Excel file updated: {aggregate_filename}")
 
-            # Apply alternating row colors by entry (each player's entry = 3 rows).
-            try:
-                wb = load_workbook(aggregate_filename)
-                ws = wb.active
-                fill1 = PatternFill(start_color="CCFFCC", end_color="CCFFCC", fill_type="solid")  # Pale green
-                fill2 = PatternFill(start_color="FFFFBD", end_color="FFFFBD", fill_type="solid")  # Pale yellow
-                # Data rows start at row 2 (header in row 1)
-                for row in range(2, ws.max_row + 1):
-                    block_index = (row - 2) // 3
-                    fill = fill1 if (block_index % 2 == 0) else fill2
-                    for col in range(1, ws.max_column + 1):
-                        ws.cell(row=row, column=col).fill = fill
-                wb.save(aggregate_filename)
-                print(f"Formatted aggregate Excel file saved: {aggregate_filename}")
-            except Exception as e:
-                print(f"Error applying formatting: {e}")
+        # Apply alternating row colors by entry (each player's entry = 3 rows).
+        try:
+            wb = load_workbook(aggregate_filename)
+            ws = wb.active
+            fill1 = PatternFill(start_color="CCFFCC", end_color="CCFFCC", fill_type="solid")  # Pale green
+            fill2 = PatternFill(start_color="FFFFBD", end_color="FFFFBD", fill_type="solid")  # Pale yellow
+            # Data rows start at row 2 (header in row 1)
+            for row in range(2, ws.max_row + 1):
+                block_index = (row - 2) // 3
+                fill = fill1 if (block_index % 2 == 0) else fill2
+                for col in range(1, ws.max_column + 1):
+                    ws.cell(row=row, column=col).fill = fill
+            wb.save(aggregate_filename)
+            print(f"Formatted aggregate Excel file saved: {aggregate_filename}")
+        except Exception as e:
+            print(f"Error applying formatting: {e}")
 
     except Exception as ex:
-        print(f"An error occurred processing {file_path}: {ex}")
+        err_msg = f"An error occurred processing {file_path}: {ex}"
+        print(err_msg)
+        skipped_summary.append((player_name if 'player_name' in locals() else os.path.basename(file_path), err_msg))
 
 def main_folder():
-    # Prompt the user for the folder path containing .xls files.
+    global skipped_summary
     folder_path = input("Enter the full path to the folder containing .xls files: ").strip()
     folder_path = folder_path.strip('\'"')
     if not os.path.isdir(folder_path):
@@ -270,6 +294,15 @@ def main_folder():
             process_file(file_path)
         except Exception as ex:
             print(f"An error occurred processing {file_path}: {ex}")
+            skipped_summary.append((os.path.basename(file_path), str(ex)))
+
+    # At the end of processing, print a summary of skipped players.
+    if skipped_summary:
+        print("\nSummary of files not processed:")
+        for player, reason in skipped_summary:
+            print(f"  {player}: {reason}")
+    else:
+        print("\nAll files processed successfully.")
 
 if __name__ == "__main__":
     main_folder()
