@@ -25,11 +25,13 @@ def standardize_position(pos):
     lb_set = {"LB", "OLB", "ILB", "MLB", "WLB", "WILL", "SLB", "SAM", "LILB", "LLB", "ROLB", "LOLB", "RLB", "MILB", "RILB"}
     cb_set = {"CB", "NC", "NCB", "DC", "DCB", "DB", "RCB", "LCB"}
     ret_set = {"RET", "KR", "PR"}
-    ol_set = {"T", "OT", "OG", "G", "C", "LG", "RG", "LT", "RT"}
+    ol_set = {"T", "OT", "OG", "G", "C", "LG", "RG", "LT", "RT", "TE", "LS"}
     dl_set = {"DE", "DT", "NT", "LDT", "RDT", "LDE", "RDE", "NT"}
     s_set = {"FS", "SS"}
     fb_set = {"FB"}
     wr_set = {"WR"}
+    rb_set = {"RB"}
+    qb_set = {"QB"}
     
     if pos in lb_set:
         return "LB"
@@ -47,6 +49,10 @@ def standardize_position(pos):
         return "FB"    
     elif pos in wr_set:
         return "WR"
+    elif pos in rb_set:
+        return "RB"
+    elif pos in qb_set:
+        return "QB"
     else:
         return pos
 
