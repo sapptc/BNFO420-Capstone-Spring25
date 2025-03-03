@@ -65,7 +65,7 @@ def process_file(file_path):
          If so, uses the position from the 2024 record.
       - Combines duplicate season rows into one row per year.
       - For group1 (originally 2019, 2020, 2021), if 2019 is missing, substitutes it with the most recent year < 2019.
-      - Computes selective stat averages and writes an individual CSV file.
+      - Computes selective stat averages, calculates the percentage difference (group2 vs group1), and writes a one‐row CSV file.
       - Updates the aggregate Excel file for the player's standardized position.
     """
     global skipped_summary
@@ -217,12 +217,15 @@ def process_file(file_path):
         group2 = relevant_df[relevant_df['Season'].isin(group2_years)]
         avg_group1 = group1[[col for col in pos_columns[final_pos] if col in df.columns]].mean()
         avg_group2 = group2[[col for col in pos_columns[final_pos] if col in df.columns]].mean()
-        diff = avg_group2 - avg_group1
+        
+        import numpy as np
+        # Calculate percentage-based difference.
+        diff = np.where(avg_group1 != 0, (avg_group2 - avg_group1) / avg_group1 * 100, 0)
+        diff = pd.Series(diff, index=avg_group1.index)
 
-        # Create result DataFrame with 3 rows.
-        result_df = pd.DataFrame([avg_group1, avg_group2, diff],
-                                 index=["Group1", "Group2", "Difference"])
-        result_df = result_df.reset_index().rename(columns={"index": "Season Group"})
+        # Create result DataFrame with one row (percentage difference).
+        result_df = pd.DataFrame(diff).transpose()  # one row; columns are the stat names.
+        result_df.index = ["Difference"]
         result_df.insert(0, "Player", player_name)
 
         # Determine output folder: subfolder in the file's directory named after final_pos.
@@ -247,7 +250,7 @@ def process_file(file_path):
         else:
             aggregate_df = pd.DataFrame()
 
-        # Check for duplicate player name and skip if duplicate exists (do not log in summary)
+        # Check for duplicate player name and skip if duplicate exists (do not log duplicate error)
         if not aggregate_df.empty and "Player" in aggregate_df.columns and player_name in aggregate_df["Player"].unique():
             msg = "Duplicate player name in aggregate; skipping aggregate update."
             print(f"Skipping aggregate update for {player_name}: {msg}")
@@ -257,16 +260,15 @@ def process_file(file_path):
         aggregate_df.to_excel(aggregate_filename, index=False)
         print(f"Aggregate Excel file updated: {aggregate_filename}")
 
-        # Apply alternating row colors by entry (each player's entry = 3 rows).
+        # Apply alternating row colors by entry (each player's entry = 1 row now).
         try:
             wb = load_workbook(aggregate_filename)
             ws = wb.active
             fill1 = PatternFill(start_color="CCFFCC", end_color="CCFFCC", fill_type="solid")  # Pale green
             fill2 = PatternFill(start_color="FFFFBD", end_color="FFFFBD", fill_type="solid")  # Pale yellow
-            # Data rows start at row 2 (header in row 1)
+            # Data rows start at row 2 (header in row 1); alternate color by row.
             for row in range(2, ws.max_row + 1):
-                block_index = (row - 2) // 3
-                fill = fill1 if (block_index % 2 == 0) else fill2
+                fill = fill1 if (row % 2 == 0) else fill2
                 for col in range(1, ws.max_column + 1):
                     ws.cell(row=row, column=col).fill = fill
             wb.save(aggregate_filename)
