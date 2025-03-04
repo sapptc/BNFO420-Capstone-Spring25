@@ -11,10 +11,10 @@ skipped_summary = []
 def standardize_position(pos):
     """
     Standardize the position string.
-    - All linebacker positions (LB, OLB, ILB, MLB, WLB, WILL, SLB, SAM, LILB, LLB, ROLB, LOLB, RLB) become "LB".
+    - All linebacker positions (LB, OLB, ILB, MLB, WLB, WILL, SLB, SAM, LILB, LLB, ROLB, LOLB, RLB, MILB, RILB) become "LB".
     - All cornerback positions (CB, NC, NCB, DC, DCB, DB, RCB, LCB) become "CB".
     - Returner positions (RET, KR, PR) become "RET".
-    - Offensive line positions (T, OT, OG, G, C, LG, RG, LT, RT) become "OL".
+    - Offensive line positions (T, OT, OG, G, C, LG, RG, LT, RT, TE, LS) become "OL".
     - Defensive line positions (DE, DT, NT, LDT, RDT, LDE, RDE) become "DL".
     - Safety positions (FS, SS) become "S".
     - Fullback (FB) becomes "FB"
@@ -25,11 +25,13 @@ def standardize_position(pos):
     lb_set = {"LB", "OLB", "ILB", "MLB", "WLB", "WILL", "SLB", "SAM", "LILB", "LLB", "ROLB", "LOLB", "RLB", "MILB", "RILB"}
     cb_set = {"CB", "NC", "NCB", "DC", "DCB", "DB", "RCB", "LCB"}
     ret_set = {"RET", "KR", "PR"}
-    ol_set = {"T", "OT", "OG", "G", "C", "LG", "RG", "LT", "RT"}
-    dl_set = {"DE", "DT", "NT", "LDT", "RDT", "LDE", "RDE", "NT"}
+    ol_set = {"T", "OT", "OG", "G", "C", "LG", "RG", "LT", "RT", "TE", "LS"}
+    dl_set = {"DE", "DT", "NT", "LDT", "RDT", "LDE", "RDE"}
     s_set = {"FS", "SS"}
     fb_set = {"FB"}
     wr_set = {"WR"}
+    rb_set = {"RB"}
+    qb_set = {"QB"}
     
     if pos in lb_set:
         return "LB"
@@ -47,6 +49,10 @@ def standardize_position(pos):
         return "FB"    
     elif pos in wr_set:
         return "WR"
+    elif pos in rb_set:
+        return "RB"
+    elif pos in qb_set:
+        return "QB"
     else:
         return pos
 
@@ -88,7 +94,6 @@ def process_file(file_path):
         df['Season'] = pd.to_numeric(df['Season'], errors='coerce')
         df = df.dropna(subset=['Season'])
         df['Season'] = df['Season'].astype(int)
-
 
         # Verify required columns exist.
         for col in ['Season', 'G', 'Pos']:
@@ -242,11 +247,10 @@ def process_file(file_path):
         else:
             aggregate_df = pd.DataFrame()
 
-        # Check for duplicate player name and skip if duplicate exists.
+        # Check for duplicate player name and skip if duplicate exists (do not log in summary)
         if not aggregate_df.empty and "Player" in aggregate_df.columns and player_name in aggregate_df["Player"].unique():
-            msg = "Duplicate player name in aggregate; skipping file."
+            msg = "Duplicate player name in aggregate; skipping aggregate update."
             print(f"Skipping aggregate update for {player_name}: {msg}")
-            skipped_summary.append((player_name, msg))
             return
 
         aggregate_df = pd.concat([aggregate_df, result_df], ignore_index=True)
@@ -296,10 +300,11 @@ def main_folder():
             print(f"An error occurred processing {file_path}: {ex}")
             skipped_summary.append((os.path.basename(file_path), str(ex)))
 
-    # At the end of processing, print a summary of skipped players.
-    if skipped_summary:
+    # At the end of processing, print a summary of skipped players (excluding duplicate errors).
+    non_duplicate_skips = [item for item in skipped_summary if "Duplicate player name" not in item[1]]
+    if non_duplicate_skips:
         print("\nSummary of files not processed:")
-        for player, reason in skipped_summary:
+        for player, reason in non_duplicate_skips:
             print(f"  {player}: {reason}")
     else:
         print("\nAll files processed successfully.")
