@@ -25,10 +25,13 @@ def standardize_position(pos):
     lb_set = {"LB", "OLB", "ILB", "MLB", "WLB", "WILL", "SLB", "SAM", "LILB", "LLB", "ROLB", "LOLB", "RLB", "MILB", "RILB"}
     cb_set = {"CB", "NC", "NCB", "DC", "DCB", "DB", "RCB", "LCB"}
     ret_set = {"RET", "KR", "PR"}
-    ol_set = {"T", "OT", "OG", "G", "C", "LG", "RG", "LT", "RT", "TE", "LS"}
+    ol_set = {"T", "OT", "OG", "G", "C", "LG", "RG", "LT", "RT", "LS"}
     dl_set = {"DE", "DT", "NT", "LDT", "RDT", "LDE", "RDE"}
     s_set = {"FS", "SS"}
     fb_set = {"FB"}
+    te_set = {"TE"}
+    k_set = {"K"}
+    p_set = {"P"}
     wr_set = {"WR"}
     rb_set = {"RB"}
     qb_set = {"QB"}
@@ -47,6 +50,12 @@ def standardize_position(pos):
         return "S"
     elif pos in fb_set:
         return "FB"    
+    elif pos in te_set:
+        return "TE"
+    elif pos in k_set:
+        return "K"
+    elif pos in p_set:
+        return "P"
     elif pos in wr_set:
         return "WR"
     elif pos in rb_set:
@@ -209,14 +218,24 @@ def process_file(file_path):
             final_pos = unique_positions[0]
             print(f"Standardized position: {final_pos}")
 
+        # Check if the expected stat columns for the player's position exist.
+        stat_cols = [col for col in pos_columns.get(final_pos, []) if col in df.columns]
+        if not stat_cols:
+            msg = f"Expected stat columns for position {final_pos} not found in file."
+            print(f"Skipping {file_path}: {msg}")
+            skipped_summary.append((player_name, msg))
+            return
+        else:
+            print(f"Found stat columns for {final_pos}: {stat_cols}")
+
         # Now we have group1_years (e.g., either [2019,2020,2021] or [substitute,2020,2021])
         # and group2 is always [2022,2023,2024].
         group2_years = [2022, 2023, 2024]
 
         group1 = relevant_df[relevant_df['Season'].isin(group1_years)]
         group2 = relevant_df[relevant_df['Season'].isin(group2_years)]
-        avg_group1 = group1[[col for col in pos_columns[final_pos] if col in df.columns]].mean()
-        avg_group2 = group2[[col for col in pos_columns[final_pos] if col in df.columns]].mean()
+        avg_group1 = group1[stat_cols].mean()
+        avg_group2 = group2[stat_cols].mean()
         diff = avg_group2 - avg_group1
 
         # Create result DataFrame with 3 rows.
