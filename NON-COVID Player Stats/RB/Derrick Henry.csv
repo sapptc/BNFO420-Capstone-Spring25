@@ -1,2 +1,4 @@
-Player,Y/A,Y/R,Succ%,1D
-Derrick Henry,-2.03,15.00,0.73,0.91
+Player,Season Group,Y/A,Y/R,Succ%,1D
+Derrick Henry,Group1,4.93,8.67,50.17,73.33
+Derrick Henry,Group2,4.83,9.97,50.53,74.00
+Derrick Henry,Difference,-0.10,1.30,0.37,0.67
