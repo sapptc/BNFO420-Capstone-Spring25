@@ -46,66 +46,196 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="nfl-stats-processing-script" class="level1">
-<h1>NFL Stats Processing Script</h1>
-<section id="overview" class="level3">
-<h3 class="anchored" data-anchor-id="overview">Overview</h3>
-<p>This Python script processes an NFL statistics Excel file (<code>.xls</code>) with a specific format. It performs data validation and standardization, calculates selective averages, and outputs the results to a CSV file.</p>
+<section id="nfl-performance-analysis-r-scripts" class="level1">
+<h1>NFL Performance Analysis R Scripts</h1>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This collection of R scripts supports the end-to-end workflow for analyzing NFL player performance differences pre- vs.&nbsp;post-COVID. The pipeline covers:</p>
 <ul>
-<li><p><strong>Naming the File:</strong> For this to work well and properly, you’ll get a Microsoft Excel export from <a href="https://www.pro-football-reference.com/" class="uri">https://www.pro-football-reference.com/</a> for the player you desire to get stat averages on. Before inputting this file through the program you <strong>MUST</strong> open the file and ‘Save As…’ a ‘Excel 97 - 2003’ file type .xsl. The default way the .xsl comes from the website is formatted in an embedded html format that makes it unreadable by the program, so just save it as instructed above first.</p></li>
-<li><p><strong>File Input:</strong><br>
-Prompts the user to enter the full file path of a <code>.xls</code> file. The script automatically strips any extra quotes (e.g., when using “Copy as Path”).</p></li>
-<li><p><strong>Header Parsing:</strong><br>
-Reads the Excel file assuming the column headers are on the second row (i.e., row index 1).</p></li>
-<li><p><strong>Data Validation:</strong><br>
-Verifies that the file contains required columns (<code>Season</code>, <code>G</code>, and <code>Pos</code>), ensures that data is present for seasons 2019 to 2024, and confirms that for each season at least one record has more than 6 games played.</p></li>
-<li><p><strong>Position Standardization:</strong><br>
-Standardizes the position values using predefined mappings. For example:</p>
-<ul>
-<li><strong>Offensive Line:</strong> <code>OT</code>, <code>OG</code>, <code>G</code>, <code>C</code> → <code>OL</code></li>
-<li><strong>Defensive Line:</strong> <code>DE</code>, <code>DT</code>, <code>NT</code> → <code>DL</code></li>
-<li><strong>Linebackers:</strong> Variants like <code>LB</code>, <code>OLB</code>, <code>ILB</code>, <code>MLB</code>, <code>WLB</code>, <code>WILL</code>, <code>SLB</code>, <code>SAM</code> → <code>LB</code></li>
-<li><strong>Cornerbacks:</strong> <code>CB</code>, <code>NC</code>, <code>NCB</code>, <code>DC</code>, <code>DCB</code>, <code>DB</code> → <code>CB</code></li>
-<li><strong>Safeties:</strong> <code>FS</code>, <code>SS</code> → <code>S</code></li>
-<li><strong>Returners:</strong> <code>RET</code>, <code>KR</code>, <code>PR</code> → <code>RET</code></li>
-</ul></li>
-<li><p><strong>Selective Stat Averaging:</strong><br>
-Based on the standardized position, only the relevant stats are averaged:</p>
-<ul>
-<li><strong>QB:</strong> <code>Yds</code>, <code>Cmp%</code>, <code>Int</code>, <code>TD</code>, <code>1D</code></li>
-<li><strong>WR:</strong> <code>Y/R</code>, <code>Catch%</code>, <code>Y/Tgt</code>, <code>Succ%</code></li>
-<li><strong>RB:</strong> <code>Y/A</code>, <code>Y/R</code>, <code>Succ%</code>, <code>1D</code></li>
-<li><strong>TE:</strong> <code>Y/R</code>, <code>Catch%</code>, <code>Y/Tgt</code>, <code>Succ%</code></li>
-<li><strong>OL:</strong> <code>Comb</code>, <code>Solo</code>, <code>Ast</code></li>
-<li><strong>DL:</strong> <code>PD</code>, <code>Comb</code>, <code>Solo</code>, <code>Ast</code></li>
-<li><strong>LB:</strong> <code>PD</code>, <code>Comb</code>, <code>Solo</code>, <code>Ast</code></li>
-<li><strong>CB:</strong> <code>PD</code>, <code>Comb</code>, <code>Solo</code>, <code>Ast</code></li>
-<li><strong>S:</strong> <code>PD</code>, <code>Comb</code>, <code>Solo</code>, <code>Ast</code></li>
-<li><strong>K:</strong> <code>FG%</code>, <code>Lng</code></li>
-<li><strong>P:</strong> <code>Y/P</code>, <code>Lng</code></li>
-</ul></li>
-<li><p><strong>Season Grouping &amp; Calculation:</strong><br>
-The script divides the data into two groups:</p>
-<ul>
-<li><strong>Group 1:</strong> Seasons 2019–2021<br>
-</li>
-<li><strong>Group 2:</strong> Seasons 2022–2024<br>
-It calculates the average for each group and then computes the difference (Group 2 average minus Group 1 average) for the selected stats.</li>
-</ul></li>
-<li><p><strong>Output:</strong><br>
-The CSV file is saved in a subfolder named after the standardized position (e.g., <code>WR</code>) within the same directory as the input file. The CSV file’s name mirrors the input file’s name (with a <code>.csv</code> extension).</p></li>
+<li><p>Data aggregation &amp; preprocessing (Python → CSV/Excel)</p></li>
+<li><p>Statistical testing (R)</p></li>
+<li><p>Visualization of percentage changes (R)</p></li>
+<li><p>Linear mixed-effects modeling (R)</p></li>
+<li><p>PCA &amp; clustering (R)</p></li>
+<li><p>Z-score standardization (R)</p></li>
 </ul>
+<p>Each script is organized by analytic step and grouped into the following categories:</p>
+<ul>
+<li><p>Statistical tests</p></li>
+<li><p>Mixed-effects modeling</p></li>
+<li><p>Percentage-difference plots</p></li>
+<li><p>PCA clustering</p></li>
+<li><p>Data standardization</p></li>
+</ul>
+<p><strong>Prerequisites</strong></p>
+<pre><code>R (≥ 4.0.0)
+
+R packages
+
+install.packages(c(
+  "lme4", "lmerTest",            # LMM
+  "tidyverse", "readr",          # Data wrangling
+  "readxl", "writexl",           # Excel I/O
+  "FactoMineR", "factoextra",    # PCA &amp; clustering
+  "ggrepel", "ggplot2",          # Plots
+  "purrr", "dplyr", "tidyr"      # Functional programming &amp; tidy data
+))</code></pre>
+<p><strong>File Summary</strong> 1. TestingLMM.R</p>
+<p>Purpose: Fit linear mixed-effects models on combined-tackle (Comb), solo-tackle (Solo), assist-tackle (Ast), and pass-deflection (PD) counts, comparing pre- vs.&nbsp;post-COVID within each player as a random intercept.</p>
+<p>Key steps:</p>
+<pre><code>Load all per–defensive-lineman CSVs from a directory
+
+Bind into a single data frame, rename Season Group, drop “Difference” rows
+
+Convert Player and Season_Group to factors
+
+Fit lmer(metric ~ Season_Group + (1 | Player)) for each metric
+
+Extract fixed-effect estimates and p-values into a summary tibble
+
+Produce a boxplot of Comb by Season_Group</code></pre>
+<ol start="2" type="1">
+<li>statistical_tests.r</li>
+</ol>
+<p>Purpose: Ingest all individual player CSVs across positions, tag each record with its Position (derived from the parent directory), and assign a high-level Position_Category (“Power” vs.&nbsp;“Endurance”).</p>
+<p>Key steps:</p>
+<pre><code>Recursively list .csv files under NON-COVID Player Stats
+
+Read each file, extract Position from the file path
+
+Combine into one data frame
+
+Create Position_Category based on predefined position lists</code></pre>
+<ol start="3" type="1">
+<li>Percentage Differences w graphs.R</li>
+</ol>
+<p>Purpose: Read per-position aggregate Excel workbooks (percentage-change matrices), reshape to long format, perform omnibus and per-position tests, and produce three core plots (boxplot, median bar chart, mean bar chart), plus training-type comparisons.</p>
+<p>Key steps:</p>
+<pre><code>Read each *_aggregate.xlsx into a long data frame
+
+Run one-way ANOVA, Kruskal-Wallis, and one-sample t-tests (μ = 0) by Position
+
+Plot:
+
+    Enhanced boxplot with zero line and median points
+
+    Median percentage change bar chart
+
+    Mean percentage change bar chart
+
+Categorize roles into “Strength Based” vs. “Endurance Based” and test/plot group differences</code></pre>
+<ol start="4" type="1">
+<li>zscorestandarization.R</li>
+</ol>
+<p>Purpose: Standardize raw aggregate metrics via Z-score transformation.</p>
+<p>Key steps:</p>
+<pre><code>Read a single aggregate Excel file (e.g. FB_aggregate.xlsx)
+
+Identify numeric columns, apply scale()
+
+Recombine with non-numeric identifiers (Player, etc.)
+
+Write out a standardized Excel file</code></pre>
+<ol start="5" type="1">
+<li>PCAClustering_Raw.R</li>
+</ol>
+<p>Purpose: Perform PCA on raw (non-percentage) player metrics for clustering by “Power” vs.&nbsp;“Endurance.”</p>
+<p>Key steps:</p>
+<pre><code>Set working directory to folder of *standardized_output_noncovid.xlsx files
+
+Read and combine all sheets, filter out “Difference” rows
+
+Select numeric columns, impute missing values by column mean
+
+Run PCA() (FactoMineR)
+
+Generate:
+
+    PCA scatterplot colored by Category
+
+    Scree plot of eigenvalues
+
+    Biplot of variables &amp; individuals
+
+    Contribution plots for top variables</code></pre>
+<ol start="6" type="1">
+<li>PCAClustering_PercentageStats.R</li>
+</ol>
+<p>Purpose: Perform PCA on percentage-change spreadsheets for non-COVID aggregate stats.</p>
+<p>Key steps:</p>
+<pre><code>Read all sheets from a single workbook (e.g. All Data - Non COVID.xlsx), tag with sheet name
+
+Filter out “Difference” rows, identify ID vs. numeric columns
+
+Convert remaining to numeric, impute NAs
+
+Run PCA(), then plot:
+
+    Individuals scatter (colored by Category)
+
+    Scree plot
+
+    Biplot
+
+    Top contributing variables
+
+    Dim 1 vs 3 biplot
+
+    Variable correlation map</code></pre>
+<ol start="7" type="1">
+<li>PCAClustering_CombinedPercentageStats.R</li>
+</ol>
+<p>Purpose: Extend PCA comparison across COVID and non-COVID cohorts and save annotated plots.</p>
+<p>Key steps:</p>
+<pre><code>Read two aggregate workbooks (All Data – COVID.xlsx, All Data – Non COVID.xlsx), tag with Infection_Status
+
+Filter out “Difference” rows, convert to numeric and impute
+
+Run PCA() on combined data
+
+Generate &amp; save seven plots:
+
+    PCA individuals by COVID status &amp; category
+
+    Scree plot
+
+    PCA biplot
+
+    Contribution to PC1 &amp; PC2
+
+    Dim 1 vs 3 biplot
+
+    Variable correlation map
+
+    Faceted PCA plot (offense/defense/special teams)</code></pre>
+<section id="usage" class="level3">
+<h3 class="anchored" data-anchor-id="usage">Usage</h3>
+<pre><code>Configure paths at the top of each script (e.g. folder_path, file_path, output_folder).
+
+Install required R packages (see Prerequisites).
+
+Run scripts in order, from data ingestion → statistical tests → visualization → PCA clustering.</code></pre>
+<p>Rscript TestingLMM.R<br>
+Rscript statistical_tests.r<br>
+Rscript “Percentage Differences w graphs.R”<br>
+Rscript zscorestandarization.R<br>
+Rscript PCAClustering_Raw.R<br>
+Rscript PCAClustering_PercentageStats.R<br>
+Rscript PCAClustering_CombinedPercentageStats.R</p>
 </section>
-<section id="using-in-vs-code-and-within-the-repository" class="level2">
-<h2 class="anchored" data-anchor-id="using-in-vs-code-and-within-the-repository">Using in VS Code and within the Repository</h2>
-<p>Cloning this in your workspace will provide all the position folder you should need as well as any player stats that have already been uploaded.</p>
-<section id="prerequisites" class="level3">
-<h3 class="anchored" data-anchor-id="prerequisites">Prerequisites</h3>
-<ul>
-<li><strong>Python 3.x</strong></li>
-<li><strong>Required Packages:</strong><br>
-Install the necessary packages using pip: ```bash pip install pandas xlrd</li>
-</ul>
+<section id="output" class="level3">
+<h3 class="anchored" data-anchor-id="output">Output</h3>
+<pre><code>CSV / Excel: per-player percentage-change rows; position-level aggregates
+
+Console: LMM summaries, ANOVA/Kruskal-Wallis/t-test results, training-type summaries
+
+Plots:
+
+    Boxplots, bar charts (median/mean)
+
+    PCA scatterplots, biplots, scree plots, contribution maps
+
+    Saved PNGs for combined COVID vs. non-COVID analyses</code></pre>
 </section>
 </section>
 </section>
