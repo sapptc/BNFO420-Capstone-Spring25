@@ -44,7 +44,7 @@ There are multiple different folders organizing the run statistics for each play
 
 - **Season Grouping & Calculation:**  
   The script divides the data into two groups:
-  - **Group 1:** Seasons 2019–2021  
+  - **Group 1:** Seasons 2019–2021   
   - **Group 2:** Seasons 2022–2024  
   It calculates the average for each group and then computes the difference (Group 2 average minus Group 1 average) for the selected stats.
 
