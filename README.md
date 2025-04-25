@@ -1,7 +1,8 @@
 # NFL Stats Processing Script
 
 ### Overview
-This repo contains a Python script designed to process NFL player statistics from Excel files, a python script that finds and removes duplicates, and others that aggregate date in different ways. The script reads player stats, validates the data, standardizes position names, calculates averages for different seasons, and outputs the results into organized CSV files.
+This repo contains Python scripts designed to process NFL player statistics from Excel files, a python script that finds and removes duplicates, and others that aggregate date in different ways. The script reads player stats, validates the data, standardizes position names, calculates averages for different seasons, and outputs the results into organized CSV files.
+This also contains various R Script for Statistical Analysis and Data Visualization. There is a seperate folder for the R scripts with a README file that explains how to use them.
 
 ## All Stats Folders
 There are multiple different folders organizing the run statistics for each player in various ways. Some are COVID-19 specific, some are by position, and some are by player. SOme are just combined aggregates. You'll find percentage based difference and integer based differences.
