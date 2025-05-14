@@ -1,0 +1,713 @@
+
+
+
+
+
+
+
+
+# The Change in Performance Metrics of American Football Players Based on Positional Demands Due to COVID-19
+
+Aaron Alexander, Shreya Arun, Ayesha Safeer, Tyler Sapp, and Saahith Tupakula 
+Virginia Commonwealth University
+BNFO 420: Applications in Bioinformatics
+April 24, 2025
+
+Abstract
+
+The SARS-CoV-2 (COVID-19) virus is known to cause respiratory illness for contracted individuals which affects both cardiorespiratory and aerobic function. Within professional sports, COVID-19 has led to significant concerns regarding athlete lifestyle, health, and performance. The objective of this study was to explore the long term impact of COVID-19 on American football (NFL) player performance in order to determine whether position specific physiological demands influence post-COVID performance outcomes. The project hypothesized that American football players in endurance-heavy positions may experience a greater decline in performance metrics over a three-year post-COVID-19 period compared to power-based positions due to the lasting impact of COVID-19 on aerobic capacity and cardiorespiratory function. Players were grouped by position type and COVID-19 status, and their performance data was collected from 3 seasons before and 3 seasons after confirmed contraction (2019-2024). The aggregated data was analyzed using linear mixed models (LMM) and principal component analysis (PCA). Results showed that performance changes post-COVID were generally small with minimal significance and varied widely among individuals. While certain metrics, like yards per reception for wide receivers (-1.2, p = 0.004) and passes defended for cornerbacks (-0.83, p = 0.041) declined significantly, most other performance trends were not significant. LMMs revealed that individual variability outweighed position-based differences, and PCA showed only modest clustering between power and endurance roles. These findings suggest that individual factors, such as recovery protocols and baseline fitness, play a larger role in post-COVID performance than position type. Future studies can explore the impact of respiratory illnesses through more personalized, longitudinal approaches in assessing athletic recovery after illness.
+
+
+Key Words/Phrases: COVID-19, American football, Athletic performance, Linear Mixed Models (LMM), Principal Component Analysis (PCA), and Sports analytics
+
+
+
+
+Introduction
+	The global outbreak of COVID-19, caused by the SARS-CoV-2 virus, has significantly impacted public health, disrupting not only daily life but also the performance and careers of athletes worldwide. While the virus is widely known for its acute respiratory effects, research has increasingly highlighted its long-term consequences, which include lingering fatigue, decreased aerobic capacity, cardiovascular inflammation, and reduced ability to recover from physical exertion (Carfi et al., 2020; Wezenbeek et al., 2023). These symptoms, often lasting for weeks or months post-infection, have raised new concerns for athletes, especially those competing at the highest level of physical performance.  
+	In the world of athletics, even minor reductions in endurance, speed, or recovery time can drastically affect an athlete’s ability to train, compete, and maintain peak form. Wezenbeek et al. (2023) documented measurable declines in aerobic capacity and elevated heart rate responses lasting up to four weeks post-infection in elite football players, despite medical clearance. These effects align with broader findings reported in clinical reviews, where fatigue and reduced cardiorespiratory endurance are among the most common persistent symptoms following COVID-19 (del Rio et al., 2020). These performance-related challenges have been observed across a range of sports, highlighting the widespread concern about how post-COVID symptoms may interfere with high-intensity training and competition at the elite level. 
+	Within the National Football League (NFL), maintaining optimal physical fitness is essential for competitive performance. NFL athletes are among the most physically demanding performers in sports, with the average player about 6 feet 2 inches tall and weighing approximately 245 pounds (Pro Football References, n.d.), though these characteristics vary significantly by position to meet different physical demands. For example, wide receivers must maintain elite-level sprint speed and stamina, while offensive linemen require absolute strength and mass. The lasting impact of COVID-19 on cardiorespiratory function, including reduced VO2 max and prolonged recovery time, may be especially detrimental to players in endurance-intensive roles (Wezenbeek et al. 2023). 
+	These effects mirror other chronic health conditions that have historically impaired athletic performance, such as asthma or cardiovascular disease. As the NFL resumed regular play during the pandemic, the league implemented extensive health protocols, including routine testing, player isolation measures, opt-out clauses, and adjusted schedules to limit outbreaks (Bagley, 2022). Despite these efforts, some athletes missed entire seasons, and others opted for early retirement due to persistent symptoms or post-COVID complications. 
+	American Football serves as an effective model for evaluating COVID-19’s impact on athletic performance due to its unique combination of high physical demands, distinct positional roles, and rich statistical tracking. The NFL’s detailed performance record, covering metrics such as tackles, receptions, pass deflections, and sprint speeds, offers a rare opportunity to evaluate how COVID-19 may have affected athletes differently based on their role. Skill-based positions such as wide receivers, defensive backs, and running backs rely heavily on cardiovascular endurance and repeated sprint ability, while linemen and tight ends rely more on anaerobic strength and short bursts of power. Prior studies by Pincivero and Bompa (1979) and Miller et al. (2002) confirmed these physiological differences, showing higher VO2 max in skill players and greater absolute strength metrics among linemen. This variation provides a valuable framework to investigate whether COVID-19’s lingering effects impact some athletes more than others based on the physical demands of their position.
+	To build upon past research, this study aims to investigate the long-term impact of COVID-19 on the performance of NFL football players, focusing on whether there are any differences in effects between endurance-heavy and power-based positions. We hypothesized that American football players in endurance-heavy positions may experience a greater and more prolonged decline in performance metrics over a three-year post-COVID-19 period compared to power-based positions, due to the lasting impact of COVID-19 on aerobic capacity and cardiorespiratory function.
+While prior research has explored the general impacts of COVID-19 on athletic capacity and injury occurrence, few studies have assessed how these effects vary by position within a single sport. The NFL offers an expansive dataset on performance metrics, with well-defined physical demands that vary based on position. By extracting performance statistics over a six-year timeline (three years pre- and post-infection), our study examines a unique perspective on how COVID-19 may differentially impact aerobic versus anaerobic athletic performance. Furthermore, while existing studies have often relied on self-reported data, our approach utilizes objective, in-game data to track performance over time. Not only does this improve the validity of our study, but it may also prove useful in developing return-to-play protocols and improving long-term health management for NFL athletes.
+Methods
+Timeframe of Study
+	This study focused on player performance across six NFL seasons, centered on the COVID-19 outbreak. Pre-COVID performance data was collected from the 2019, 2020, and 2021 seasons, while post-COVID data spanned the 2022, 2023, and 2024 seasons. This timeframe, with the 2021 season being the central point, was selected to observe performance trends both leading up to and following confirmed COVID-19 infections, allowing us to detect any persistent or delayed effects on athlete output over time.
+Cohort Definitions and Grouping Criteria
+	Players were divided into two primary groups based on their COVID-19 status during the 2021 season. The COVID group included athletes who were confirmed to have tested positive, while the non-COVID group included those with no documented infection. Players who lacked a minimum of three complete seasons in both the pre- and post-COVID periods were excluded from the final dataset to maintain consistency and reduce bias in comparison. This grouping strategy allowed us to isolate changes in performance that could be attributed to COVID-19 infection, rather than other unrelated factors like injuries and team transitions. 
+Position Classification
+	To evaluate whether COVID-19 had differing effects based on the physical demands of a player’s role, each position was categorized as endurance-based or power-based. This classification was based on established previous research, which has shown that different football positions place varying demands on cardiovascular endurance, speed, strength, and anaerobic capacity (Pincivero & Bompa, 1997; Miller et al., 2002).
+Endurance-based positions were defined as those requiring high aerobic output, repeated sprint ability, and frequent movement across large field areas. This included quarterbacks (QB), wide receivers (WR), running backs (RB), defensive backs (CB, FS, SS), and outside linebackers (OLB/WILL). These athletes are involved in extended plays and require sustained speed and quick recovery.
+Power-based positions involved short bursts of high-intensity exertion, often centered on blocking and tackling. These roles included offensive linemen (LT, LG, C, RG, RT), defensive linemen (DL), tight ends (TE), fullbacks (FB), and middle linebackers (MLB). These players rely more on absolute strength and anaerobic power than cardiovascular efficiency.  
+	This classification was used to stratify the data and evaluate whether endurance-demanding positions exhibited greater post-COVID performance decline than power-based ones. 
+Variable Identification and Controls
+	The dependent variables in this study were position-specific performance statistics, such as total tackles, receptions, passing yards, or pass deflections, depending on each player’s role. These statistics were gathered for each player across all included seasons. Independent variables included player group (COVID or non-COVID), position type (endurance or power), and time (pre- or post-COVID period). 
+Data Aggregation and Preprocessing
+Data sources and cohort definition
+Player COVID-19 status for the seasons we studied was obtained from the only comprehensive source available, the Sharp Football Analysis COVID-19 List & Tracker (https://www.sharpfootballanalysis.com/analysis/covid-19-list-tracker-for-players-nfl-policies/). Because this tracker was published at the end of the 2021 season, any infections occurring after that point are not captured in our analysis.
+Raw player statistics were obtained in ‘.xls’ format from Pro‑Football‑Reference (https://www.pro-football-reference.com/). Two cohorts were defined based on COVID‑19 status: 123 players without a confirmed COVID‑19 diagnosis (“non‑COVID”) and 142 players who had tested positive (“COVID”).
+Duplicate file handling
+To ensure that each player was represented only once, we compared file names between two source directories (one per cohort) using a Python script. Filenames in the smaller (non‑COVID) folder were collected into a set, then any file in the larger (COVID) folder whose basename matched that set was moved into a ‘Duplicates’  subfolder. This prevented redundant processing of the same player’s data:
+# Pseudocode outline:
+# 1. build set of filenames from folder1  
+# 2. for each .xls in folder2, if name in set → move to folder2/Duplicates 
+
+Player Position, Stat and Aggregation Code
+Player performance data was stored in individual Excel workbooks (.xls), with each file corresponding to one athlete and containing season‐level statistics. A Python script automated the following steps for each file:
+File Ingestion and Validation
+ The script reads each workbook with pandas.read_excel(), starting from the second row as header. It verifies the existence of the required columns (Season, G, Pos) and skips any file missing these fields or not matching the “.xls” extension.
+Season Filtering and Aggregation
+ Seasons are coerced to integers, and only years corresponding to two groups (Group 1: 2019-2021, with 2019 optionally substituted by the most recent year <2019 if absent; Group 2: 2022-2024) are retained. All rows for duplicate seasons are collapsed by taking the mean of numeric stats and the first value of non‐numeric fields.
+Position Standardization
+ Raw position labels (e.g., “OLB”, “FS”, “TE”) are mapped to one of ten standardized categories (QB, WR, FB, RB, TE, OL, DL, LB, CB, S, K, P) via a lookup function. If a player’s position shifts across seasons but the available stat columns remain identical, the 2024 position is used.
+Column Selection and Averaging
+ For each standardized position, a predefined set of relevant statistics (for example, “Y/A” and “1D” for running backs; “PD”, “Solo”, “Ast” for linebackers) is identified. The script checks that at least one of these columns is present, otherwise the file is logged and skipped. Mean values of the selected stats are computed separately for Group 1 and Group 2.
+Result Compilation and Export
+ The two group averages are assembled into a 3‐row DataFrame (“Group1”, “Group2”, “Difference”), where the “Difference” row reports the raw difference between Group 2 and Group 1. This table is exported as a CSV named after the player and his position, and appended to a position‐specific aggregate Excel file. Finally, alternating row fills (green vs. yellow) are applied to each player’s three‐row blocks in the aggregate workbook via openpyxl styling.
+Error Handling
+ Throughout processing, any file that fails validation (missing columns, insufficient seasonal data, no relevant stat columns, or fewer than six games in any season) is skipped with an explanatory message recorded in a global skipped_summary list.
+This pipeline ensures reproducible, consistent computation of season‐group statistics across all players and streamlines the generation of both individual and aggregated summary tables.
+Season selection and consolidation
+The analysis window was anchored on the end of the 2021 season (the midpoint of interest). We required three post‑COVID seasons (2022, 2023, 2024) and, ideally, three pre‑COVID seasons (2019, 2020, 2021). If 2019 data were missing but 2020 and 2021 were present, the most recent available pre‑2019 season (e.g. 2018 or earlier) was substituted. All season values were coerced to integers, and multiple rows for the same season were collapsed by taking the mean of each numeric stat (non‑numeric fields were carried forward from the first occurrence).
+Position‑specific stat extraction
+For each standardized position (e.g. QB, WR, RB, OL, etc.), we selected only the statistics most commonly tracked for that role (e.g. passing yards and touchdowns for QBs, yards per reception for WRs). These column lists were defined appropriately based on Pro‑Football‑Reference and ESPN analytics guides.
+Computation of change metrics
+Within each player’s cleaned dataset, we computed two group averages, pre‑COVID (three seasons) and post‑COVID (three seasons), for the position‑specific stats. The percentage change from pre to post was then calculated as:
+  %Δ = 100 *Post Avg. - Pre  Avg.Pre Avg.
+Any pre avg. of zero was handled by assigning a 0 % change to avoid division by zero.
+File output and organization
+Each player’s results were written to an individual CSV containing exactly one row containing the percentage changes for all tracked stats. A parallel “raw difference” CSV (post - pre) was also generated. All player files were stored in a nested directory structure by Position, COVID Status,  and “Power” or “Endurance” classification. An aggregate Excel workbook for each position was maintained and updated with the new percentage‐change row, alternating row colors to delineate successive player entries.
+
+Statistical Analysis: LMM
+In order to evaluate the effects of COVID-19 on player performance between pre- and post-COVID player groups, we ran a series of Linear Mixed Models (LMMs) using the lme4 package in R-Studio. 
+	A LMM is a statistical analysis that can be used to analyze clustered and longitudinal data, taking into account multiple variables that may influence a data structure (Ge et al., 2016). The LMM categorizes independent variables into two groups: fixed effects, that directly affect the dependent variable, where the effect is constant across all individuals random effects, and random effects which may indirectly influence or be correlated to variation in the data (Ge et al., 2016).
+	To run the LMM, we transformed the aggregated data into a long format and removed the differences row (the aggregated stats was the only data we needed for the LMM), producing the following key columns within each data set:
+	Player: The unique player name
+Season_Group: Group1 (pre-COVID seasons) or Group2 (post-COVID seasons)
+Position: the standardized football position (e.g. QB, TE, RB, CB) 
+Metric: the performance statistic of interest (e.g. TD, Yards, PD, FG%)
+Value: corresponding data value, measured based on the specific metric
+Covid_Status: COVID or Non-COVID group label (for models comparing COVID vs control)
+	Using the aggregated data, we assessed multiple models that broke down clustered variable groups into different parts: within position LMMs, power- and endurance-based position group LMMs, and a combined LMM comparing COVID-19 vs non-COVID-19 players.
+Within-Group LMMs by Position Type
+	We first ran a separate LMM for all positions independently in order to model the performance change between pre- and post-COVID seasons using the following structure:
+Performance_Change ~ 1 + (1 | Player)
+By utilizing this model we were able to output the variable value of the raw difference between the post- and pre-COVID averages for each metric. Only the players within the position were included as per the model (i.e. QB, RB, WR, etc.). The random intercepts for ‘player’ made sure to account for any individual player-based variability in the data. This LMM allowed us to identify position specific performance trends post-COVID while still accounting for each different statistic measured. 
+Power vs. Endurance Group LMMs
+	We next analyzed how pre- and post-COVID data changed within positional categories based on physiological demands. Three total models were run for this portion of the study: Power-based positions only, Endurance-based positions only, and a combined LMM with all player data with position-category (power or endurance) taken into account. This analysis would allow us to make comparisons of how physiological demands of different positions may influence player performance. We ran the first two independent group LMMs by adding to the prior structure: 
+Performance_Change ~ 1 + (1 | Player) + (1 | Position)  
+We included random intercepts for Player and Position to account for variability across individuals and roles. No fixed variables were added in this model, as the goal was to only estimate the average change and its variation due to players or positions.
+	The combined LMM of power and endurance positions together, we followed this structure: 
+Performance_Change ~ Position_Group + (1 | Player) + (1 | Position)  
+The fixed effect in this model was set as the ‘Position_Group’ (Power or Endurance) in order to explicitly compare the two groups' trends. This model specifically tests whether there was a significant difference in performance change between power-based and endurance-based positions. 
+	These models were the key tests used to evaluate our hypotheses that endurance-heavy roles may show greater post-COVID declines in performance, due to potential effects of the disease on aerobic capacity. 
+To interpret the data, the performance changes were visualized using boxplots that stratified the data by group. We also removed any outliers that existed beyond 1.5 * IQR in order to better visualize the data
+Combined COVID vs. Control LMM
+	While still keeping data separated by endurance- and power-based positions, we then compared the entire data set to control groups that were also respectively separated. The goal of this model was to evaluate the interaction between COVID status and time, and identify if there was any possible significance with COVID-19 and performance in general. The LMM parameters were set as: 
+Value ~ Season_Group * Covid_Status + Position_Group + Metric + Position + (1 | Player)
+This model evaluated how pre- vs. post-COVID conditions varied between COVID players and the non-covid control players. The inclusion of ‘Season_Group * Covid_Status’ allowed us to explicitly test whether COVID status influenced the trajectory of player performance over time. The fixed effects for metric and position were also adjusted in order to accommodate for the differences between position_group (power or endurance), each metric’s statistical measurement, and to consider differences in position responsibilities. The random intercept stayed as ‘player’ which controlled for repeated measures that may be due to individual player variability. 
+After running the model, we addressed outliers of the LMM by generating and constraining a coefficient plot to improve the readability to the clustered data points. 
+Statistical Analysis: PCA Clustering
+	The classification of positions into “power” or “endurance” based categories was based on a generalized understanding of American football positional demands. PCA analyses were conducted on the collected aggregate performance metric data to determine if the data support our categorization of the positions. 
+	PCA analyses were conducted on the raw data from players who had contracted COVID and those who had not, and on the percentage change data from players who had contracted COVID and those who had not. 
+Data Preprocessing and Standardization:
+The raw aggregate data for COVID-infected and non-COVID-infected players were preprocessed and z-score standardized using the “zscorestandardization.R” script to ensure compatibility across different metrics. The script loaded raw data from Excel files containing performance metric data from all identified players within an individual position using the readxl library in R. Numeric columns were identified for z-score standardization. The numeric columns were isolated and standardized using the following formula:
+z = x-
+where z represents the z-score, x represents the raw value, μ represents the mean, and σ represents the standard deviation. 
+Standardizing the performance metrics in this way allowed for scale differences between different metrics to be mitigated and allowed for equal weighting in future analyses. The standardized data for the position was then combined with non-numeric columns and output as a new Excel file.
+	The percentage change data for COVID-infected and non-COVID-infected players were not standardized, as the change in metrics was already expressed as percentages, which can be compared across positions. 
+	Raw data and percentage data were manually classified into “endurance” or “power” categories by adding the “Category” column to the data. 
+PCA Visualization
+The PCAClustering_Raw.R, PCAClustering_PercentageStats.R, and PCAClustering_CombinedPercentageStats.R performed dimensionality reduction and clustering of the standardized raw data for COVID-infected and non-COVID-infected players, along with the percentage change data for COVID-infected and non-COVID-infected players. In total, four separate PCA analyses were performed. 
+Multiple standardized output files were loaded and merged into a single dataset within R for the analyses of raw data. The original values from the standardized output files were included in the new dataset, ignoring the values that measured differences across seasons. Numeric columns were then isolated, and PCA was performed using the FactoMineR library, and the following code:
+pca_result <- PCA(numeric_data, graph = FALSE)
+
+The “Category” column was retained as a grouping variable. PCA reduced the dataset to principal components (or dimensions) that capture the most variance. The predefined “Category” labels allowed for visualizations of biplots and ellipses to emphasize the clustering of the data. The output generated by these scripts would provide information on the calculated eigenvalues, which represent the amount of variance explained by each principal component (or dimension), the amount of variance explained that is associated with the eigenvalues, and the contributions of the first 10 variables to the loading of each dimension. Loadings represent how much the variable contributes to a particular principal component (or dimension).
+The PCAClustering_CombinedPercentageStats.R was derived from the PCAClustering_Raw.R script which was modified to handle multi-sheet Excel files and to allow for direct comparisons between COVID-infected and non-infected NFL players. Each player’s data was tagged with an Infection_Status variable (“COVID” or “Non-COVID”) to facilitate clustering based on both infection history and positional category (Power vs. Endurance). The dataset consisted of standardized performance metrics expressed as percentages, which included variables such as completion percentage (Cmp%), success rate (Succ%), first down conversion rate (1D), yards per attempt (Y/A), and yards per target (Y/Tgt). The data was visualized using dual-group PCA plots, with color indicating infection status and shape representing positional category.
+Several plots were generated using these scripts, including scree plots, biplots, contribution plots, and cluster analysis plots. Faceted biplots were generated for the analysis of raw data.  Scree plots displayed the variance explained by each principal component and helped identify the most informative dimensions. Biplots illustrated the relationships between the players and key principal components, colored by their position category. Contributions plots show the variables that contributed the most to the principal components, which helped to label the components in other plots. Cluster analysis plots allowed for the visualization of the natural groupings of data points, with distinct colors separating the “endurance” and “power” categories. Faceted biplots were implemented to look for grouping trends within the clustering data according to position.
+Results
+Data Extraction
+From an initial collection of 265 Pro-Football-Reference .xls files (123 non-COVID, 142 COVID), our filename‐based duplicate‐detection routine identified and relocated all overlapping files into a Duplicates subfolder within the COVID directory, ensuring each player appeared only once in the analysis. The aggregation step produced a set of uniform, per-player output files in which each file contains a single row of percentage-change metrics (post vs. pre COVID) alongside the player’s name. We successfully collapsed multiple entries per season into season-level averages, applied our pre-COVID (2019-2021) and post-COVID (2022-2024) filters (substituting the most recent earlier season when 2019 was missing), and distilled each athlete’s six seasons into one concise percentage-change vector. This approach ensured a clean, comparable dataset for downstream tests and visualizations. Inherent in the process, however, is the loss of game- or season-by-season variability, while offering simplicity and consistency, the aggregation cannot reflect within-season trends or the full range of year-to-year fluctuations.
+LMM
+Position-Based LMMs
+	We successfully ran a series of LMMs using fixed effects for season group and random intercepts for individual players to analyze performance trends for individual position trends pre- and post-COVID. 
+	Across all of the 11 standardized positions, there was minimal significant decline in player performance by metric observed. Running backs (RB) displayed a statistically significant decline in yards per attempt (Y/A) (estimate = -1.19, p = 0.0091, Table 1) and yards per reception (Y/R) (estimate = -1.25, p = 0.0073, Table 1). Tight ends (TE) showed a significant decrease in yards per reception (Y/R, estimate = -1.76, p = 0.0049) and yards per target (Y/Tgt, estimate = -1.16, p = 0.0286), while other metrics like success rate and first downs showed no significant changes (Table 1). Among defensive players, linebackers (LB) saw a significant decline in solo tackles (estimate = -9.75, p = 0.0393, Table 1).
+	There were also some observed positive trends that were found  to be significant. Punters (P) had a significant increase in longest punt distance (Lng) post-COVID (estimate = 2.44, p = 0.0332), despite no change in yards per punt (Y/P, Table 1). All other metrics and positions did not show any statistical significance (Table 1).
+LMMs by Position Type (Power vs. Endurance)
+	Three LMMs were run in R-studio to test the changes in performance with positions grouped by physiological role (endurance or power). 
+	In the Power-only model, there was no significant change in average performance observed between pre- and post-COVID seasons (estimate = -2.34, p = 0.457, Table 2). The residual variance was large (2198), and almost all random variance was attributable to player-level differences (106.6), with negligible variance attributed to position group (Table 2).
+	The Endurance-only model also resulted in no statistically significant fixed effect for season group difference between pre- and post-COVID seasons (estimate = -1.00, p = 0.568, Table 2). However, there was a slightly greater position level variance observed (3.67) that what was found in the Power-only model (Table 2). 
+	The first two models were visualized and compared in a box plot (Figure 1). The visualization displayed that endurance-based players displayed a more negative median and greater variability than power-based players. However, no statistically significant differences were found (Table 2).
+	The combined model, which compared the power and endurance groups together, found no significant difference in performance change. While the analysis showed that there was an estimated decrease in performance within the endurance group (-0.85), the p-value of 0.843 identified that there was minor significance with the outcome (Table 2). 
+LMM Comparing COVID vs. Non-COVID Players
+	The final LMM was used to assess the overall effect of COVID infection status on player performance trajectories over time by comparing the entire endurance. The model considered the variables of Season Group (pre- and post-COVID periods), COVID_Status, Position Group (power vs. endurance), metrics, and positions as fixed effects  and a random effect for Player.
+	A coefficient plot was generated to identify the key markers of significant improvement or decline in performance based on both metrics and position categories (figure 2). Based on the observed trends of the coefficient plot and the outputs of this LMM, findings showed that for players who contracted COVID, there was significant post-COVID performance decreases in metrics including completion percentage (Cmp%, estimate = -108.20, p < 0.001), interceptions (Int, estimate = -162.68, p < 0.001), and touchdowns (TD, estimate = -146.33, p < 0.001, Table 3).
+The model also resulted in some unexpected findings with some improvements in performance such as punting distance for the punter positions (estimate = +2.44, p = 0.0332). Other unexpected findings included the linebackers group, which was categorized as a power-based position, experiencing a significant decline in solo tackles (estimate = -9.75, p = 0.0393, Table 3). 
+	Certain positional roles also displayed changes in performance, such as offensive linemen (OL) with an estimate of -29.73 (p = 0.041) and linebackers (LB), with an estimate = +11.20 ( p = 0.060, Table 3). 
+	The visualization of the trends between season (pre- and post- COVID) and the COVID status showed that COVID-positive players had an observed decline in performance (figure 3). The control group also displayed overall improvement in performance over time (figure 3). However, regardless of the observed trends, the overall interactions between season and COVID status was not statistically significant (estimate = +5.10, p = 0.078). 
+
+PCA
+The PCA analyses clustered American football positions into power-based (e.g., linebackers, defensive linemen) and endurance-based (e.g., wide receivers, running backs) groups using player performance data post-COVID infection and player performance data for those who had not contracted COVID. The analyses were further split into separate PCA runs for investigation of raw player performance data and percentage change performance data. 
+
+PCA of Raw Performance Data from COVID-Infected Players
+The PCA of post-COVID raw player performance data resulted in three significant principal components or dimensions with eigenvalues greater than 1. The first dimension explained 19.1% of the total variance, the second explained 11.7%, and the third explained 11.5%. The three principal components combined explained 42.3% of the total variance (Figure 4A). Variable contributions highlighted that combined tackles (95.6%) and solo tackles (88.l%) loaded most heavily on Dim1, while yards per target (55.6%) and success percentage (15.0%) loaded most heavily on Dim2 (Figure 4C). The PCA biplot based on position categorization confirmed clustering, but there is overlap between the identified clusters (Figure 4B). Power positions dominated the left/right extremes of the biplot, and endurance positions clustered centrally. The faceted biplot displayed some distinct clustering patterns based on position, within the overall clustering of “power” and “endurance” (Figure 4D). 
+The faceted PCA biplot showed some patterns when examining positional groups separately. The defense facet illustrated that no clear clustering emerged among positions, with points distributed broadly across both dimensions. Defensive linemen (DL) exhibited the narrowest range along Dim1 but the widest variation along Dim2, and both were concentrated on the negative side of Dim1 alongside safeties (S). However, all defensive positions, including linebackers (LB) and cornerbacks (CB), displayed outlier values extending into positive Dim1 and Dim2 ranges. For offensive positions, wide receivers (WR), running backs (RB), and quarterbacks (QB) clustered closest to the center (near 0) along Dim1, with most values ranging between -5 and 5 on Dim2. Offensive linemen (OL) showed minimal variation along Dim1 and were tightly concentrated near 0 on Dim2. Tight ends (TE) and fullbacks (FB) occupied intermediate positions between these skill players and linemen. Special teams players (kickers (K) and punters (P)) were the least dispersed data points, hovering between -0.05 and 0.10 on Dim1 and showing slight concentration from -0.10 to 0.05 on Dim2. Their positions near the plot origin distinguished them from both offensive and defensive groups in Dim1.
+
+PCA of Raw Performance Data from Non-COVID-Infected Players
+The PCA of non-COVID raw player performance data resulted in five significant principal components or dimensions with eigenvalues greater than 1. The first dimension explained 25.75% of the total variance, the second explained 17%, the third explained 10.85%, the fourth explained 9.83% and the fifth explained 8.33%. The first four principal components combined explained 63.42% of the total variance, with subsequent principal components gradually explaining less and less variance (Figure 5A). Variable contributions highlighted that combined tackles (30.99%), solo tackles (28.99%), and assisted tackles (25.39%) loaded most heavily on Dim1, while yards per reception (36.41%) and success percentage (17.28%) loaded most heavily on Dim2 (Figure 5C). The PCA biplot based on position categorization confirmed clustering, but there is a large overlap between the identified clusters (Figure 5B). The faceted biplot displayed some distinct clustering patterns based on position, within the overall clustering of “power” and “endurance” (Figure 5D). 
+The faceted PCA biplot displayed positional distributions within the overall “power” and “endurance” categories. The defense facet of the biplot illustrated that safeties (S) showed the tightest clustering around the center of Dim1 (between -2.5 and 2.5), while linebackers (LB), defensive linemen (DL), and cornerbacks (CB) showed greater spread along Dim1. Most CB and DL data points were concentrated between -0.05 and 0.10 on Dim2, while LB and S displayed no discernible patterns along Dim2. The offense facet of the biplot illustrated that wide receivers (WR), tight ends (TE), and running backs (RB) clustered near the center of Dim1 (0), with values ranging between -5 and 5 on Dim2. Offensive linemen (OL) were tightly grouped around the center of Dim2 (0) but showed more even dispersion along Dim1. The special teams facet of the biplot illustrated that limited data points were available, but kickers (K) varied along Dim1 with most values below 0.05 on Dim2. Punters (P) clustered near the center of Dim1 (0) while showing variation along Dim2.
+
+PCA of Percentage Change Performance Data from COVID Players
+PCA was also conducted on standardized percentage-based performance metrics for both COVID-infected and non-infected players. The first three principal components collectively accounted for 42.3% of the total variance in the data set (Figure 6D). PC1 was the largest contributor to the variance and was mainly composed  of defensive metrics including combined tackles (Comb), solo tackles (Solo), assisted tackles (Ast), and passes defended (PD) (Figure 6E) PC2 was the second highest contributor, composed of offensive production metrics such as touchdowns (TD), completion percentage (Cmp%), and total yardage (Yds) (Figure 6F). 
+
+PCA of Percentage Change Performance Data from Non-COVID Players
+	PCA of non-infected players identified 4 principal components that accounted for 62% of the total variance (Figure 6A). PC1, composed of primarily defensive metrics, included combined tackles (Comb), assisted tackles (Ast), and solo tackles (Solo) (Figure 6B). PC2 was mostly influenced by receiving efficiency, consisting of yards per reception (Y/R), success percentage (Succ%), and yards per target (Y/Tgt) (Figure 6C). 
+
+PCA of Percentage Change Using Combined Performance Data
+When both COVID and non-COVID datasets were combined, four components were identified that, together, accounted for 52.1% of the total variance and the clustering plots exhibited clear differences in grouping patterns. In the non-COVID group, positional categories (Endurance or Power) formed clear and tightly grouped clusters (Figure 7B). In the COVID group, players displayed greater dispersion, especially among those in endurance-based positions (Figure 7B). Across both groups, power-based positions remained more compactly clustered and showed similar distribution patterns.
+Discussion
+	This study presents a novel approach to understanding the long-term effects of COVID-19 on professional athletes by leveraging NFL performance statistics that were evaluated in the context of each player’s positional role and physical requirements. The objective of this study was to identify how position-based physiological demands may result in different post-COVID player performance results. Based on the LMM analyses, our findings do not statistically support the hypothesis that endurance-based NFL positions have greater declines in performance post-COVID compared to power-based positions. While the position-based LMMs identified a few significant declines such as yards per attempt for running backs and yards per reception for tight ends, most metrics across positions were found to not be statistically significant. Also, the LMMs run with the endurance-only and power-only group resulted in no statistically significant change (0.568 and 0.457, respectively, Table 2). The combined group model comparing endurance to power positions similarly failed to show any significance in the data (p = 0.843, Table 2). Overall, the LMMs suggest that endurance-based positions did not show uniquely negative trajectories when compared directly to power-based ones. 
+	The analysis of the COVID vs. non-COVID control LMM showed that there were overall declines in performance specific metrics within the COVID group, regardless of the position type being endurance, like completion percentage (estimate = -108.20, p < 0.001), interceptions (-162.68, p < 0.001), and touchdowns (-146.33, p < 0.001, Table 3). There were also some overall performance improvements observed including field goal percentage (+74.26, p = 0.005) and total yards (+3413.43, p < 0.001). These mixed findings reveal that the relationship between COVID-19 and long-term athletic performance may not be directly linked to position type alone. Individual variability effectively different metrics or positions directly, such as recovery time, training resources, or preexisting health conditions may play a larger, more direct role on performance post-COVID.
+	The PCA results provide important context for interpreting LMM findings, especially to explain the lack of significant differences between endurance and power positions post-COVID. PCA successfully clustered positions into these two categories, but several key patterns in the clustering aligned with the results of our LMM results. The first pattern that was noticed across PCA runs was the significant overlap between clusters in both COVID-infected (42.3% of variance explained) and non-COVID-infected players (63.4% of variance explained). The overlap suggests that our binary power vs. endurance classification of positions may not capture the full complexity of the performance metric data, and therefore, the positional demands of American football. This provides a possible explanation for the non-significant results of our LMM analysis.
+The PCA analyses also showed that defensive metrics (tackles) and offensive efficiency metrics (yards per target/reception) proved to be the strongest discriminators between position types in COVID-infected players and non-COVID-infected players. The consistency of core performance metrics seen in the PCA can provide an explanation for why there was no systematic decline in both endurance and power-based positions post-COVID.
+While PCA on raw performance data provides visualization of how players clustered based on absolute values, it does not take into account how an individual player’s performance may change over time. Thus, its data is limited when investigating the potential effects of COVID-19, as the focus is on potential variability in performance after infection. Therefore, PCA was also used to visualize percentage change data to examine the change in performance within each player, relative to their own.
+The results for the percentage change PCA exhibited patterns that were distinct from the raw data analysis. Among COVID-infected players, the first principal component remained influenced by defensive performance metrics, indicating that these metrics were the largest contribution to overall changes in performance. However, the second component was influenced by offensive production metrics, which are often affected by aerobic capacity. This suggests that performance changes in these areas had more variability among the COVID group. For the non-COVID group, PC1 was also based on defensive metrics, but PC2 differed in that it was composed of receiving efficiency metrics. These results indicate that performance in the non-COVID group was more consistent in defensive performance and had more variability in efficiency-based offensive metrics. The PCA for the non-COVID group had four principal components that accounted for 62% of the variance, illustrating greater consistency in performance patterns as a majority of the variance can be attributed to just four variables.
+When the two groups were analyzed together, the combined PCA showed that each group displayed different grouping patterns. In the non-COVID group, players primarily in endurance-based positions formed tight clusters, reflecting only small changes in performance. In contrast, the COVID group showed greater dispersion, especially among endurance-based positions that was less visible in the raw performance PCA. Across both groups, power-based positions remained more tightly clustered, with slightly more dispersion in the COVID group. 
+The fundamental metrics that define these positions seem to be resilient to the effects of COVID infection. Notably, the PCA revealed some patterns that mirrored our LMM findings, where certain positions demonstrated significant changes after infection, while others did not. For example, the PCA showed tighter clustering for offensive lineman (minimal Dim1 variation) and more dispersed data for defensive lineman. These findings are consistent with LMM results describing the reduction of solo tackles in linebackers, while more homogenous groups like the offensive line did not see much change. 
+The similarities between the PCA results and the LMM results suggest that the null findings in our overall endurance vs. power comparisons may obscure important position-specific effects. The moderate variance explained by the PCA dimensions (42.3 - 63.4%) also indicates that there are unmeasured variables besides metrics measured in this analysis that affect athletic performance in American football players. Incorporating more factors and focusing on position-specific effects may allow for more informative LMM results in the future.
+For our study, several limitations must be acknowledged. First, the dataset may not account for all players who contracted COVID-19, especially those who tested positive but were not publicly listed or reported during the 2021 season. As a result, some infected players may have been misclassified as controls, potentially obscuring significant differences. Additionally, we lacked direct physiological measurements, such as VO2 max, resting heart rate, or lung capacity, which limited our ability to connect observed performance changes directly to the biological impacts of the virus. 
+	Furthermore, the statistical power of certain comparisons was affected by sample size imbalances between endurance- and power-based positions. This imbalance may have made it harder to detect subtler trends in less-represented roles. Lastly, selection bias likely played a role, specifically players who were most affected by COVID-19 and failed to return to professional play were excluded by default, possibly underestimating the true impact of post-COVID performance declines.
+Future research should incorporate COVID-19 cases occurring after 2021 to enlarge the sample of NFL players and strengthen statistical power. Expanding the dataset with more recent infections will allow for more comprehensive analyses, and, as additional seasons accrue, researchers will be able to examine long-term performance trends, particularly among the smaller pool of athletes with careers spanning seven or more years.
+	Despite these limitations, our findings are highly relevant to the broader conversation on athlete health and virus recovery. While prior studies, such as Lopes et al. (2025), reported reductions in aerobic fitness, including lower VO2 max among post-COVID athletes, we did not observe a clear or consistent decline among endurance-based positions in the NFL. This contrast may reflect differences between clinical or lab-based data and real-world performance data, where external factors such as team strategy, playtime opportunity, and positional variability complicate outcomes. 
+	Our findings further underscore the variability in post-COVID recovery among athletes. A previous mixed-methods study reported that nearly one-third of endurance athletes experience prolonged exercise intolerance due to lingering symptoms like fatigue and breathlessness. However, our analysis of NFL players did not reveal a consistent decline in performance among endurance-based positions. This discrepancy may be attributed to differences in athlete populations, with Haley et al.’s study focusing on recreational endurance athletes, whereas our study examined professional football players who may have access to more comprehensive medical support and training resources. These findings suggest that recovery trajectories are influenced by a complex array of factors, including individual physiology, the nature of the sport, and the level of medical and training support available. 
+	In terms of practical applications, this study emphasizes that return-to-play evaluations should move beyond general timelines and take sport-specific demands into account. For trainers, coaches, and medical staff, the distinction between endurance and power demands should inform monitoring practices and conditioning protocols. A defensive lineman returning to post-COVID may be physically ready for short, explosive snaps, while a wide receiver might still struggle with repeated sprints and slower oxygen recovery due to the endurance demands of their position. 
+	Our analysis opens doors to future investigations across sports, levels, and geographic regions. Expanding the dataset, integrating biometric indicators, and conducting cross-sport comparisons, such as soccer, basketball, or track and field, may reveal more detailed insights on how COVID-19 impacts athletes with differing physiological profiles. The statistical frameworks applied here, particularly Linear Mixed Models, could serve as templates for future post-pandemic sports health research. 
+Conclusion 
+This study analyzed the long-term effects of COVID-19 on professional NFL player performance by evaluating performance differences between endurance and power-based positions. Based on collected player data from 3 year pre- and 3 year post-COVID, LMM results found minimal significance in player performance between the two position groupings. PCA clustering identified that our data had a majority of variance that was unexplained by power and endurance categories alone with the clustering mostly overlapping. Our findings suggest that physiological demands may not be the main or only driver of player performance following COVID-19 infection. However, due to the presence of individual variability in our findings, recovery time, baseline fitness, and other player-specific factors may have had a greater influence on player performance. While some isolated metrics and positions did display significant changes when compared to the non-COVID control group, the broader trends, even with a wider LMM analysis, were found to not be significant. 
+Future studies, analyzing direct physiological changes, such as player VO2 max levels or aerobic/muscular function post-illness may be more useful for understanding the effects of COVID-19 on the physiological demands of a sport. Overall, these findings emphasize the importance of identifying potential markers or variables that influence player performance when affected by respiratory conditions like COVID-19. Understanding the influence of COVID-19 and other illnesses on athlete performance can allow for better training and recovery protocols to target health and performance. 
+Group contributions to the project
+Aaron Alexander: Wrote and ran generalized PCAs to identify power- and endurance-based clustering  
+Shreya Arun: Data collection, background investigation, ran percentage-based PCAs in R-studio to identify if scaled data could result in distinct clustering
+Ayesha Safeer: Data collection and processing, organized data outputs of aggregated data for statistical analysis use, background investigation of COVID and player performance 
+Tyler Sapp: Collection of data and NFL statistics, wrote the Python-based code to aggregate all of the player data, made the gitHub of all of the collected data and code 
+Saahith Tupakula:  Wrote and ran the position independent, power-based, endurance-based, and COVID vs Control LMMs
+
+Written Report Contributions
+
+Abstract: Tyler
+Intro: Ayesha, Shreya
+Methods: Ayesha, Tyler, Saahith, Aaron, Shreya
+Results: Tyler, Saahith, Aaron, Shreya
+Discussion: Saahith, Aaron, Shreya, Ayesha
+Conclusion:  Tyler
+Figures/Tables Appendix: Tyler, Saahith, Aaron, Shreya
+
+References
+Bagley, T. (2022). Covid-19 list tracker for players & NFL policies: Sharp football. Sharp Football Analysis. https://www.sharpfootballanalysis.com/analysis/covid-19-list-tracker-for-players-nfl-policies/
+Carfì, A., Bernabei, R., & Landi, F.  (2020). Persistent symptoms in patients after acute COVID-19. JAMA: The Journal of the American Medical Association, 324(6), 603-05. https://doi.org/10.1001/jama.2020.12603.
+del Rio, C., Collins, L.F., & Malani, P. (2020). Long-Term Health Consequences of COVID-19.” JAMA : The Journal of the American Medical Association, 324(17), 1723-24. https://doi.org/10.1001/jama.2020.19719.
+Ge, T., Smoller, J. W., & Sabuncu, M. R. (2016). Chapter 2 - Kernel machine regression in neuroimaging genetics. Machine learning and medical imaging, 31-68. https://doi.org/10.1016/B978-0-12-804076-8.00002-5
+Haley, C. A., Aswegen, H. V., & Olivier, B. (2024) Every run is hard: endurance athletes experiences of return to sports participation after COVID-19- a mixed methods study.” Translational Sports Medicine, 2024(1), Article 1506534. https://doi.org/10.1155/2024/1506534
+Lopes, L. R., Medeiros, R., Tavares, V., Dias, F., Amaral, M. V. G., Goes, R. A., Matheus Guimarães, J. A., & Perini, J. A. (2025). A Systematic review and meta-analysis on aerobic fitness dynamics in post-COVID-19 athletes: implications in the return-to-play performance. Sports, 13(2), 40. https://doi.org/10.3390/sports13020040.
+Miller, T. A., White, E. D., Kinley, K. A., Congleton, J. J., & Clark, M. J. (2002). The effects of training history, player position, and body composition on exercise performance in collegiate football players. Journal of Strength and Conditioning Research, 16(1), 44-49. https://doi.org/10.1519/00124278-200202000-00008.
+Pincivero, D. M., & Bompa, T. O. (1997). A physiological review of American football. Sports Medicine, 23(4), 247-260. https://doi.org/10.2165/00007256-199723040-00004
+Pro Football Stats, history, scores, standings, playoffs, Schedule & Records. Pro Football Reference. (n.d.). https://www.pro-football-reference.com/ 
+Wezenbeek, E., Denolf, S., Bourgois, J. G., Philippaerts, R. M., De Winne, B., Willems, T. M., … Schuermans, J. (2023). Impact of (long) COVID on athletes’ performance: a prospective study in elite football players. Annals of Medicine, 55(1). https://doi.org/10.1080/07853890.2023.2198776
+
+
+Appendix Figures/Tables
+All Code and Aggregated Data Available Here: BNFO420-Capstone GitHub
+Table 1.
+Position
+Metric
+Estimate
+P-
+value
+Significance
+Position
+Metric
+Estimate
+P-
+value
+Signif.
+QB
+Yds
+-42.582
+0.853
+ns
+DL
+PD
+0.1811
+0.47
+ns
+
+
+Cmp%
+1.345
+0.297
+ns
+
+
+Comb
+2.95
+0.506
+ns
+
+
+Int
+-0.6375
+0.726
+ns
+
+
+Solo
+0.01278
+0.996
+ns
+
+
+TD
+-1.277
+0.69
+ns
+
+
+Ast
+2.938
+0.149
+ns
+
+
+1D
+-7.115
+0.3848
+ns
+LB
+PD
+-0.4278
+0.209
+ns
+WR
+Y/R
+-0.08316
+0.894
+ns
+
+
+Comb
+-11.764
+0.125
+ns
+
+
+Y/Tgt
+-0.3111
+0.445
+ns
+
+
+Solo
+-9.754
+0.0393
+*
+
+
+Succ%
+-2.098
+0.213
+ns
+
+
+Ast
+-2.01
+0.536
+ns
+RB
+Y/A
+-1.1914
+0.00914
+**
+CB
+PD
+-1.2129
+0.132
+ns
+
+
+Y/R
+-1.25
+0.00739
+**
+
+
+Comb
+-9.145
+0.217
+ns
+
+
+Succ%
+3.607
+0.314
+ns
+
+
+Solo
+-7.389
+0.154
+ns
+
+
+1D
+-0.04571
+0.9842
+ns
+
+
+Ast
+-1.753
+0.487
+ns
+TE
+Y/R
+-1.7644
+0.00491
+**
+S
+FG%
+1.433
+0.593
+ns
+
+
+Y/Tgt
+-1.1622
+0.0286
+*
+
+
+Lng
+0.4975
+0.642
+ns
+
+
+Succ%
+-0.5756
+0.905
+ns
+
+
+Y/P
+0.5567
+0.427
+ns
+OL
+Comb
+0.0009
+0.99171
+ns
+
+
+Lng
+2.4433
+0.0332
+*
+
+
+Solo
+-0.09
+0.21143
+ns
+K
+FG%
+1.433
+0.593
+ns
+
+
+Ast
+0.09
+0.0671
+ns
+
+
+Lng
+0.4975
+0.642
+ns
+
+
+
+
+
+
+
+
+
+
+P
+Y/P
+0.5567
+0.427
+ns
+
+
+
+
+
+
+
+
+
+
+
+
+Lng
+2.4433
+0.0332
+*
+
+
+Legend. Table summarizing the results of the individual position-based LMMs to measure the estimate pre- to post-COVID change in performance for each metric. The pre- and post-COVID groups were set as fixed effects and the output estimates were each associated with a p-value to determine significance: “**” for p < 0.01, “*” for p < 0.05, and “ns” for non-significant results.
+Figure 1. Distribution of Performance Change by Power vs. Endurance
+Legend. Box plot comparing performance change between players grouped by Power- and Endurance-based positions. The performance change was calculated as the raw difference in each player’s average metric values across a three season pre-COVID and three post-COVID period (2019-2024). Outliers outside of 1.5xIQR were excluded from the LMM analysis in order to better scale data and improve readability. The Power-based group exhibited a slightly broader IQR than the Endurance-based group. While the Endurance group displayed a slightly more negative median change in performance, the difference comparison between the two groups yielded no significance (p = 0.775). 
+Table 2. Linear Mixed Model (LMM) Output Summary for Power-Based, Endurance-Based, and Combined Position Group Models.
+Model
+Intercept Estimate
+Intercept Std. Error
+Intercept df
+Intercept p-value
+Residual Variance
+Player Variance
+Position Variance
+Group Effect Estimate
+Group Effect Std. Error
+Group Effect df
+Group Effect P- Value
+Power Positions Only
+-2.341
+3.137
+101.34
+0.457
+2198
+106.6
+2.95E-13
+
+
+
+
+
+
+
+
+Endurance Positions Only
+-1.004
+1.566
+2.934
+0.568
+61.888
+56.852
+3.671
+
+
+
+
+
+
+
+
+Power vs Endurance Combined
+-0.9486
+3.3343
+10.4197
+0.782
+1318.91
+72.59
+11.12
+-0.851
+4.2247
+16.468
+0.843
+
+Legend. Summary table of three separate LMM analyses evaluating changes in player performance between pre- and post-COVID three season periods. The models evaluated power-based position trends only, endurance-based position trends only, and a combined model with group comparison between the two categories. The output data include the intercept estimates of the average performance change, standard errors, df, and p-values for each model. The columns labeled Residual Variance, Player Variance, and Position Variance show the estimated variability that was attributed to the random effects of individual player and position-based differences. For the combined model, the group effect estimate quantifies whether performance change differed significantly between the two categories and is provided along with its respective standard error, df, and p-value.
+
+Figure 2. Coefficient Plot of Fixed Effects in Covid vs. Control Linear Mixed Model
+
+Legend. Coefficient plot presenting the fixed effect estimates from the LMM comparing pre- and post-COVID performance metrics between the COVID-contracted players (experimental group) and the non-COVID players (control group). Each row represents one of the fixed effects and the estimated difference between the experimental performance to the control. 
+
+
+Table 3. COVID Vs Control LMM Summary Table
+Fixed Effect
+Estimate
+Std. Error
+p-value
+Significance
+Intercept
+25.632
+13.611
+0.06001
+.
+Season_GroupGroup2
+-1.891
+2.564
+0.46103
+ns
+Position_Group
+3.609
+6.409
+0.573721
+ns
+MetricAst
+-13.557
+14.496
+0.34992
+ns
+MetricCmp%
+-108.195
+19.123
+2.16E-08
+***
+MetricComb
+13.775
+14.496
+0.34225
+ns
+MetricFG%
+74.259
+26.424
+0.00506
+**
+MetricInt
+-162.681
+19.123
+2.00E-16
+***
+MetricLng
+43.756
+18.235
+0.01664
+*
+MetricPD
+-29.733
+14.533
+0.04108
+*
+MetricSolo
+-1.155
+14.496
+0.93652
+ns
+MetricSucc%
+29.818
+12.93
+0.02136
+*
+MetricTD
+-146.334
+19.123
+5.85E-14
+***
+MetricY/A
+-15.034
+14.456
+0.29866
+ns
+MetricY/P
+21.78
+18.235
+0.23267
+ns
+MetricY/R
+-12.964
+12.93
+0.31636
+ns
+MetricY/Tgt
+-17.211
+13.997
+0.21922
+ns
+MetricYds
+3413.431
+19.123
+2.00E-16
+***
+PositionFB
+-3.401
+20.693
+0.86962
+ns
+PositionK
+-12.445
+19.292
+0.51915
+ns
+PositionLB
+11.195
+5.901
+0.06003
+.
+PositionOL
+-24.254
+7.548
+0.00158
+**
+PositionQB
+148.508
+20.173
+4.73E-13
+***
+PositionTE
+1.105
+8.223
+0.89323
+ns
+PositionCB
+8.823
+7.105
+0.21661
+ns
+PositionRB
+-5.234
+10.112
+0.60516
+ns
+PositionS
+15.162
+6.616
+0.02354
+*
+
+Legend. Table of the fixed effect estimates (by positions and by metrics) of a LMM comparing pre- and post-COVID player performance between COVID-infected (experimental) and non-infected players (control). P-value significance: “***” for p≤ 0.001, “**” for 0.001 < p ≤ 0.01, “*” for 0.01 < p ≤ 0.05, “.” for 0.05 < p ≤ 0.1 , and “ns” for non-significant results.
+Figure 3. Interaction Plot of Season Group and COVID-19 Status on Performance Metrics
+
+Legend. Interaction plot of the relationship between Season Group (Group1 = pre-COVID; Group2 = post-COVID) and COVID-19 infection status (COVID vs. Non-COVID) on mean player performance. COVID-positive players (red line) begin with higher performance scores in Group1 but experience a slight decline in Group2. Non-COVID players (blue line) begin with lower average scores and show a modest improvement over time. While an expected trend was observed, these changes were not statistically significant (p = 0.07807). Variation was also modeled with COVID-positive players having high variability within the aggregated data and low variability among non-COVID players. 
+
+
+
+
+
+
+
+Figure 4:
+
+Scree Plot: Plot that displays the variance explained by each principal component (dimension) to identify the most informative dimensions. The first three PCs explain 42.3% of the variance, with the first explaining 19.1%, the second explaining 11.7% and so on.
+Biplot with Highlighted Clusters: Illustrates the clustering completed by the PCA analysis. Most data points seem to cluster around the axes, and two distinct clusters can be found, but there is significant overlap between the identified clusters.
+Variable Contribution Map: Plot communicating the loading of the dimensions on the axes. Variables that are found on the positive ends of the axes contribute to most of the variance explained by the principal component. 
+Faceted Biplot: Biplot that illustrates the clustering completed by PCA analysis, but the plot is faceted to separate the data by offense, defense, and special teams. This allows for clearer visualization of the whole dataset, as compared to the biplot with highlighted clusters. Positions are identified with distinct colors. 
+Figure 5:
+
+Scree Plot: Plot that displays the variance explained by each principal component (dimension) to identify the most informative dimensions. The first four PCs explain 63.4% of the variance, with the first explaining 25.7%, the second explaining 17% and so on.
+Biplot with Highlighted Clusters: Illustrates the clustering completed by the PCA analysis. Most data points seem to cluster around the axes, and two distinct clusters can be found, but there is significant overlap between the identified clusters.
+Variable Contribution Map: Plot communicating the loading of the dimensions on the axes. Variables that are found on the positive ends of the axes contribute to most of the variance explained by the principal component. 
+Faceted Biplot: Biplot that illustrates the clustering completed by PCA analysis, but the plot is faceted to separate the data by offense, defense, and special teams. This allows for clearer visualization of the whole dataset, as compared to the biplot with highlighted clusters. Positions are identified with distinct colors. 
+
+Figure 6.
+Legend. A. Displays the contribution of each component to the variability in performance for the non-COVID group. B. Identifies which performance metrics contribute to principal component 1 (the largest contributor to variability) for the non-COVID group. C. Identifies the performance metrics that contribute to principal component 2 for the non-COVID group. D. Displays the contribution of each principal component to the changes in performance for the COVID group. E. Identifies which performance metrics contribute to principal component 1 (the largest contributor to variability) for the COVID group. F. Identifies the performance metrics that contribute to principal component 2 for the COVID group. 
+
+Figure 7.
+Figure Description: A. Visualizes clusters based on both infection status (COVID vs non-COVID infected players) and positional category (endurance vs power). B. Visualizes clusters independently based on positional categories for the COVID and non-COVID groups.
+
+
