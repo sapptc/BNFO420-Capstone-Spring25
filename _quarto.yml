@@ -1,0 +1,66 @@
+project:
+    type: website
+    output-dir: ../docs
+
+date: 04/24/2025
+title: The Change in Performance Metrics of American Football Players Based on Positional Demands Due to COVID-19
+subtitle: BNFO 420 - Applications in Bioinformatics
+
+authors:
+    - name: Aaron Alexander
+      email: alexanderaa2@vcu.edu
+    - name: Shreya Arun
+      email: aruns2@vcu.edu
+    - name: Ayesha Safeer
+      email: safeera@vcu.edu
+    - name: Tyler Sapp
+      email: sapp.tyler.c@gmail.com 
+    - name: Saahith Tupakula
+      email: tupakulas@vcu.edu
+
+format:
+    html:
+        embed-resources: true
+        html-math-method: katex
+        theme: materia
+        toc: true
+
+website:
+  navbar:
+    background: primary
+    search: true
+    right:
+      - icon: github
+        href: https://github.com/sapptc/BNFO420-Capstone-Spring25
+        target: _blank
+    left:
+      - text: Table 1
+        href: assets/table1.png
+        target: _blank
+      - text: Figure 1
+        href: assets/table1-fig1.png
+        target: _blank
+      - text: Table 2
+        href: assets/table2.png
+        target: _blank
+      - text: Figure 2
+        href: assets/table2-fig2.png
+        target: _blank
+      - text: Table 3
+        href: assets/table3.png
+        target: _blank
+      - text: Figure 3
+        href: assets/table3-fig3.png
+        target: _blank
+      - text: Figure 4
+        href: assets/fig4.png
+        target: _blank
+      - text: Figure 5
+        href: assets/fig5.png
+        target: _blank
+      - text: Figure 6
+        href: assets/fig6.png
+        target: _blank
+      - text: Figure 7
+        href: assets/fig7.png
+        target: _blank
